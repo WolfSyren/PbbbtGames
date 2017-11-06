@@ -49,12 +49,12 @@ public class BallTracker : MonoBehaviour {
 		//var heightLimit = Display.main.systemHeight;
 
 		var showUp = false;
-		if (ballPos.x - playerPos.x > _WidthLimit) 
+		if (ballPos.x - playerPos.x > _WidthLimit - _Border) 
 		{
 			targetX = _WidthLimit - _Border;
 			showUp = true;
 		}
-		else if (ballPos.x - playerPos.x  < -_WidthLimit) 
+		else if (ballPos.x - playerPos.x  < -_WidthLimit + _Border) 
 		{
 			targetX = -_WidthLimit + _Border;
 			showUp = true;
@@ -89,7 +89,9 @@ public class BallTracker : MonoBehaviour {
 
 		var targetDirection = this.transform.position - _Ball.transform.position;
 		//var newDirection = Vector3.RotateTowards(transform.forward, targetDirection, Time.deltaTime, 0.0f);
-		//transform.transform.Rotate (newDirection);
+
+		transform.LookAt(_Ball.transform);
+		//transform.Rotate (newDirection);
 
 		//Debug.Log (this.transform.rotation);
 		/*if (_FollowX) 
