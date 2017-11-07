@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 54214629043223286}
   - component: {fileID: 114243565586918284}
   - component: {fileID: 114421656600216258}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Floor
   m_TagString: Map
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 4090739626331896}
   - component: {fileID: 65879102942414438}
   - component: {fileID: 114137277495982532}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Floor Detection System
   m_TagString: Untagged
   m_Icon: {fileID: 0}

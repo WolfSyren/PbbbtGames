@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\FilterBehavior.cs" />
      <Compile Include="Assets\Scripts\BallBehavior.cs" />
      <Compile Include="Assets\Scripts\BallTracker.cs" />
      <Compile Include="Assets\Scripts\BasicSystem.cs" />

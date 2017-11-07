@@ -5,10 +5,10 @@ using UnityEngine.UI;
 
 public class ButtonBehavior : MonoBehaviour {
 
-	//public Button _Button;
+	public GameObject _Filter;
 	// Use this for initialization
 	void Start () {
-		
+		_Filter = GameObject.Find ("Filter");
 	}
 	
 	// Update is called once per frame
@@ -41,6 +41,29 @@ public class ButtonBehavior : MonoBehaviour {
 	void OnMouseUpAsButton() 
 	{
 		Debug.Log ("Ok bye bye... :(");
+
+		switch (this.name)
+		{
+		case "Start":
+			//cover screen in empty gameobject
+			//break;
+		case "HighScore":
+		case "HowTo":
+		case "Logo":
+		case "Credits":
+			_Filter.transform.GetComponent<FilterBehavior> ().ActivateFilter ();
+			break;
+		case "Quit":
+			//_Master.SendMessage("ChangeBackground", this.name);
+			//Debug.Log ("Hello, I am " + this.name);
+			//GetComponent<AudioSource>().Play ();
+
+			Application.Quit ();
+
+			break;
+		default:
+			break;
+		}
 	}
 
 	void Destroy () 

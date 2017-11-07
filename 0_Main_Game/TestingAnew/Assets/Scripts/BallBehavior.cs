@@ -23,13 +23,10 @@ public class BallBehavior : MonoBehaviour {
 	{
 		foreach(ContactPoint ctpt in col.contacts)
 		{
-			if(ctpt.otherCollider.tag == "Map" || ctpt.otherCollider.tag == "Player")
-			{
-				
-			}
 			switch (ctpt.otherCollider.tag) 
 			{
-			case "Map":
+			case "Ball Platform":
+				//call level settings to reduce ball life.
 			case "Player":
 				_RandomX = Random.Range (-_SideBouncePower, _SideBouncePower);
 				_RandomY = Random.Range (_BouncePower, _BouncePower * 2);

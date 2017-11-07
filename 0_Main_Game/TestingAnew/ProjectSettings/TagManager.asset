@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Map
   - Platform
+  - Ball Platform
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - 
   - Ball
   - Platform
-  - 
-  - 
+  - Ball Platform
+  - Floor
   - 
   - 
   - 

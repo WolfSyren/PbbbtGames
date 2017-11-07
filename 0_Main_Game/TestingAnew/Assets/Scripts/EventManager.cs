@@ -51,4 +51,10 @@ public class EventManager : MonoBehaviour {
 		}
 
 	}
+
+	void EndGame () 
+	{
+		_GameOver = true;
+		GameEndedOn ();
+	}
 }
