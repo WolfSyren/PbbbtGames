@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour {
 
-	public float _MovementRate = 1.0f;
+	public float _RunRate = 1.0f;
+	public float _RunPower = 50.0f;
+	public float _RunInertia = 4.0f;
+	bool _IsMoving = false;
+
 	bool _MouseDown = false;
 	public float _TapTimeLimit = 0.5f;
 	float _TapTimer = 0.0f;
@@ -12,9 +16,20 @@ public class PlayerControls : MonoBehaviour {
 	// 0=Still, 1=Move, 2=Jump;
 
 
-	public float _JumpPower = 1.0f;
+	//public float _JumpPower = 1.0f;
 	public float _GravityMultiplier = 1.0f;
+	public float _JumpPower = 120.0f;
+	public float _JumpLimit = 50.0f;
+	public float _JumpInertia = 7.0f;
+
+
+	bool _IsJumping = false;
 	bool _OnGround = false;
+
+	float _JumpTimer = 0.0f;
+	float _MaxJumpTimer = 3.0f;
+	public float _MaxJumpPower = 3.0f;
+
 
 	// Use this for initialization
 	void Start () {
@@ -41,27 +56,25 @@ public class PlayerControls : MonoBehaviour {
 			_TapTimer += Time.deltaTime;
 			if (_TapTimer >= _TapTimeLimit && _OnGround) 
 			{
-				_PlayerMode = 1;
+				//_PlayerMode = 1;
+				_IsMoving = true;
 			}
 		}
 			
 		if (Input.GetMouseButtonUp (0)) 
 		{
-			if (_PlayerMode == 1) 
+			if (_IsMoving) 
 			{
-				_PlayerMode = 0;
+				_IsMoving = false;
 			} 
-			else if(_PlayerMode == 0)
+			else if(_OnGround)
 			{
-				if (_OnGround) 
-				{
-					_PlayerMode = 2;
-				}
+				StartJump ();
 			}
 			_TapTimer = 0.0f;
 			_MouseDown = false;
 		}
-
+		/*
 		switch (_PlayerMode) 
 		{
 		case 1:
@@ -71,23 +84,25 @@ public class PlayerControls : MonoBehaviour {
 
 			if (Input.mousePosition.x > middleOfScreen) 
 			{
-				newX = _MovementRate;
+				newX = _RunRate;
 			}
 			else
 			{
-				newX = -_MovementRate;
+				newX = -_RunRate;
 			}
 			//Debug.Log (Input.mousePosition.x);
 			//var newPosition = new Vector3 (newX, this.transform.position.y, this.transform.position.z);
 
-			var newMovement = new Vector3 (newX*_MovementRate, Physics.gravity.y*(_GravityMultiplier + 1.0f), 0.0f);
+			var newMovement = new Vector3 (newX*_RunRate, 0.0f, 0.0f);
 			this.transform.GetComponent<Rigidbody>().velocity = Vector3.zero;
 			this.transform.GetComponent<Rigidbody>().AddForce(newMovement);
 
-			// Gravity adjustment
+			// Gravity adjustment   
 			//this.transform.GetComponent<Rigidbody>().AddForce(Physics.gravity*this.transform.GetComponent<Rigidbody>().mass);
+
 			break;
 		case 2:
+			//Jump ();
 			if (_OnGround) 
 			{
 				var _PlayerVelocity = this.transform.GetComponent<Rigidbody> ().velocity;
@@ -98,8 +113,79 @@ public class PlayerControls : MonoBehaviour {
 				_OnGround = false;
 			}
 			break;
-
 		}
+		if (!_OnGround) 
+		{
+			this.transform.GetComponent<Rigidbody>().velocity = new Vector3 (this.transform.GetComponent<Rigidbody>().velocity.x, 0.0f, 0.0f);
+			this.transform.GetComponent<Rigidbody>().AddForce(new Vector3 (0.0f, Physics.gravity.y*(_GravityMultiplier + 1.0f), 0.0f));
+		}
+		Debug.Log (_OnGround);*/
+		if (_IsMoving) 
+		{
+			Move ();
+		}
+		Jump ();
+	}
+
+	void Move()
+	{
+		var direction = Vector3.zero;
+		var middleOfScreen = Display.main.systemWidth/2;
+		if (Input.mousePosition.x > middleOfScreen) 
+		{
+			direction.x = _RunRate;
+		}
+		else
+		{
+			direction.x = -_RunRate;
+		}
+
+		var movement = new Vector3 (direction.x * _RunPower, transform.GetComponent<Rigidbody>().velocity.y, direction.z * _RunPower);
+		movement = transform.TransformDirection(movement);
+		this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.Lerp(transform.GetComponent<Rigidbody>().velocity, movement, Time.deltaTime * _RunInertia) ;
+
+	}
+
+	void Jump () {
+
+		if(_IsJumping)
+		{
+			var NewY = new Vector3(this.transform.position.x, this.transform.position.y+(_JumpPower), 0.0f);
+			this.transform.position = Vector3.Lerp(transform.position, NewY, Time.deltaTime);
+
+			if (_JumpPower > -_JumpLimit)
+			{
+				_JumpPower -= _JumpInertia;
+			}
+			else
+			{
+				_JumpPower = -_JumpLimit;
+			}
+		}
+		else if(!_OnGround)
+		{
+			var NewY = new Vector3(this.transform.position.x, this.transform.position.y+(-_JumpLimit), this.transform.position.z);
+			this.transform.position = Vector3.Lerp(transform.position, NewY, Time.deltaTime);
+			this.GetComponent<Rigidbody>().useGravity = true;
+		}
+	}
+
+	void StartJump()
+	{
+		_OnGround = false;
+		_IsJumping = true;
+
+		_JumpTimer = _MaxJumpTimer;
+		_JumpPower = _MaxJumpPower;
+		Debug.Log ("Jumpy");
+	}
+
+	public void Landing ()
+	{
+		_OnGround = true;
+		_IsJumping = false;
+		_JumpPower = _MaxJumpPower;
+		Debug.Log ("Touchdown");
 	}
 
 	void GamePause()
@@ -135,12 +221,7 @@ public class PlayerControls : MonoBehaviour {
 			{
 			case "Map":
 			case "Platform":
-				_OnGround = true;
-				//Debug.Log ("Everybody hit da floor");
-				if (_PlayerMode == 2) 
-				{
-					_PlayerMode = 0;
-				}
+				Landing ();
 				break;
 			}
 		}
@@ -170,7 +251,7 @@ public class PlayerControls : MonoBehaviour {
 		{
 			switch (ctpt.otherCollider.tag) 
 			{
-			case "Map":
+			//case "Map":
 			case "Platform":
 				_OnGround = false;
 				break;
