@@ -10,9 +10,12 @@ public class BallBehavior : MonoBehaviour {
 	float _RandomX;
 	float _RandomY;
 
+	GameObject _MasterObject;
+
 	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+	{
+		_MasterObject = GameObject.Find ("MasterObject");
 	}
 	
 	// Update is called once per frame
@@ -23,10 +26,14 @@ public class BallBehavior : MonoBehaviour {
 	{
 		foreach(ContactPoint ctpt in col.contacts)
 		{
+			if (ctpt.otherCollider.tag == "Ball Platform") 
+			{
+				_MasterObject.transform.GetComponent<LevelSettings> ().ReduceBallLife ();
+			}
+
 			switch (ctpt.otherCollider.tag) 
 			{
 			case "Ball Platform":
-				//call level settings to reduce ball life.
 			case "Player":
 				_RandomX = Random.Range (-_SideBouncePower, _SideBouncePower);
 				_RandomY = Random.Range (_BouncePower, _BouncePower * 2);
