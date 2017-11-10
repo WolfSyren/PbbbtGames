@@ -40,18 +40,30 @@ public class ButtonBehavior : MonoBehaviour {
 
 	void OnMouseUpAsButton() 
 	{
-		Debug.Log ("Ok bye bye... :(");
-
 		switch (this.name)
 		{
 		case "Start":
-			//cover screen in empty gameobject
-			//break;
 		case "HighScore":
 		case "HowTo":
 		case "Logo":
 		case "Credits":
+		case "Quit":
 			_Filter.transform.GetComponent<FilterBehavior> ().ActivateFilter ();
+			break;
+		default:
+			break;
+		}
+
+		switch (this.name)
+		{
+		case "Start":
+			Application.LoadLevel ("GameScene");
+			break;
+		case "HighScore":
+		case "HowTo":
+		case "Logo":
+		case "Credits":
+			
 			break;
 		case "Quit":
 			//_Master.SendMessage("ChangeBackground", this.name);
