@@ -1126,11 +1126,6 @@ Prefab:
       propertyPath: _CurrentMap
       value: 
       objectReference: {fileID: 853237675}
-    - target: {fileID: 114752502859183898, guid: 45de2139e3c4ca24caec4a73d7d47eb8,
-        type: 2}
-      propertyPath: _GravityModifier
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 45de2139e3c4ca24caec4a73d7d47eb8, type: 2}
   m_IsPrefabParent: 0

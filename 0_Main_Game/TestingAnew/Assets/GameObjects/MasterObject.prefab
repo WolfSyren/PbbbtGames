@@ -78,6 +78,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff745f868690528478aca88d9d140c38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _GravityModifier: 2
+  _StartingBallLives: 1
+  _BallLivesText: {fileID: 0}
+  _Time: {fileID: 0}
+  _AfterGameTime: {fileID: 0}
+  _Quality: {fileID: 0}
+  _NewHighScoreText: {fileID: 0}
+  _EndHighScoreText: {fileID: 0}
+  _EndNewHighScoreText: {fileID: 0}
+  _NewHighScore: 0
 --- !u!114 &114836289614692408
 MonoBehaviour:
   m_ObjectHideFlags: 1
