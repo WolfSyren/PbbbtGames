@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class ButtonBehavior : MonoBehaviour {
 
 	public GameObject _Filter;
+	public GameObject _MasterObject;
+
 	// Use this for initialization
 	void Start () {
 		_Filter = GameObject.Find ("Filter");
+		_MasterObject = GameObject.Find ("MainMenu MasterObject");
 	}
 	
 	// Update is called once per frame
@@ -43,10 +46,8 @@ public class ButtonBehavior : MonoBehaviour {
 		switch (this.name)
 		{
 		case "Start":
-		case "HighScore":
 		case "HowTo":
-		case "Logo":
-		case "Credits":
+		case "Help Screen":
 		case "Quit":
 			_Filter.transform.GetComponent<FilterBehavior> ().ActivateFilter ();
 			break;
@@ -59,11 +60,11 @@ public class ButtonBehavior : MonoBehaviour {
 		case "Start":
 			Application.LoadLevel ("GameScene");
 			break;
-		case "HighScore":
 		case "HowTo":
-		case "Logo":
-		case "Credits":
-			
+			_MasterObject.GetComponent<MainMenuBehavior> ().ActivateHelpScreen ();
+			break;
+		case "Help Screen":
+			_MasterObject.GetComponent<MainMenuBehavior> ().DeactivateHelpScreen ();
 			break;
 		case "Quit":
 			//_Master.SendMessage("ChangeBackground", this.name);
