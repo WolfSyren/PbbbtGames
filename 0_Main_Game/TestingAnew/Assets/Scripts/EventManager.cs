@@ -52,7 +52,7 @@ public class EventManager : MonoBehaviour {
 
 	}
 
-	void EndGame () 
+	public void EndGame () 
 	{
 		_GameOver = true;
 		GameEndedOn ();
