@@ -30,6 +30,10 @@ public class BallBehavior : MonoBehaviour {
 			{
 				_MasterObject.transform.GetComponent<LevelSettings> ().ReduceBallLife ();
 			}
+			else if (ctpt.otherCollider.tag == "Player") 
+			{
+				_MasterObject.transform.GetComponent<LevelSettings> ().AddBallScore ();
+			}
 
 			switch (ctpt.otherCollider.tag) 
 			{

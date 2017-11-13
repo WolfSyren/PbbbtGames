@@ -5,12 +5,18 @@ using UnityEngine;
 public class LevelSettings : MonoBehaviour {
 
 	public float _GravityModifier = 1.0f;
-	int _BallLives = 3;
+	int _BallLives = 1;
 	public int _StartingBallLives = 3;
 
 	float _GameTimer = 0.0f;
+	int _Score = 0;
+	int _BallScore = 0;
+	public int _BallToScoreRatio = 1;
+	int _TimerScore = 0;
+	public int _TimeToScoreRatio = 5;
 
-
+	public GameObject _ScoreDisplay;
+	string _ScoreText;
 
 	public GameObject _BallLivesText;
 	public GameObject _Time;
@@ -42,8 +48,30 @@ public class LevelSettings : MonoBehaviour {
 	void GameUpdate()
 	{
 		_GameTimer += Time.deltaTime;
+		UpdateScore ();
+		UpdateScoreText ();
 	}
 
+	void UpdateScore()
+	{
+		_TimerScore = Mathf.FloorToInt((_GameTimer % 60)/_TimeToScoreRatio); 
+		_Score = _TimerScore + _BallScore;
+	}
+
+	void UpdateScoreText()
+	{
+		var seconds = Mathf.FloorToInt(_GameTimer % 60); 
+		var minutes = Mathf.FloorToInt(_GameTimer/ 60); 
+		var hours = Mathf.FloorToInt(minutes/ 60); 
+
+		_ScoreText =  _Score.ToString() + "  ||  " +
+							hours.ToString() + " - " +
+								minutes.ToString() + " - " +
+									seconds.ToString();
+		//GUI.Label (Rect (400, 25, 100, 30), _Displ
+		_ScoreDisplay.GetComponent<TextMesh>().text = _ScoreText;
+
+	}
 
 	public void ReduceBallLife()
 	{
@@ -51,6 +79,11 @@ public class LevelSettings : MonoBehaviour {
 		if (_BallLives <= 0) {
 			//gameover;
 		}
+	}
+	public void AddBallScore()
+	{
+		_BallScore += _BallToScoreRatio;
+		Debug.Log ("AAAAAAAAAHHHHHHHHHH");
 	}
 
 	/*void CheckScore () 

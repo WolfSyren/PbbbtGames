@@ -80,6 +80,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _GravityModifier: 2
   _StartingBallLives: 1
+  _TimetoScoreRatio: 5
+  _ScoreDisplay: {fileID: 0}
   _BallLivesText: {fileID: 0}
   _Time: {fileID: 0}
   _AfterGameTime: {fileID: 0}
