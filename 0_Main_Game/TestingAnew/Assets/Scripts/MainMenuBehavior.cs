@@ -49,7 +49,6 @@ public class MainMenuBehavior : MonoBehaviour {
 
 	void LoadHighScore() 
 	{
-		SetNewHighScore ();
 		if (PlayerPrefs.GetInt ("HighScore") == null) 
 		{
 			SetNewHighScore ();

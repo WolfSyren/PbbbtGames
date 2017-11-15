@@ -39,6 +39,7 @@ public class LevelSettings : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		EventManager.GameUpdate += GameUpdate;
+		EventManager.GameEndedOn += GameEndedOn;
 		//var baseGravity = Physics.gravity.y;
 		//Physics.gravity = new Vector3(0.0f, baseGravity*_GravityModifier, 0.0f);
 
@@ -50,6 +51,9 @@ public class LevelSettings : MonoBehaviour {
 		_GameTimer += Time.deltaTime;
 		UpdateScore ();
 		UpdateScoreText ();
+		if (_BallLives <= 0) {
+
+		}
 	}
 
 	void UpdateScore()
@@ -68,7 +72,7 @@ public class LevelSettings : MonoBehaviour {
 							hours.ToString() + " - " +
 								minutes.ToString() + " - " +
 									seconds.ToString();
-		//GUI.Label (Rect (400, 25, 100, 30), _Displ
+		
 		_ScoreDisplay.GetComponent<TextMesh>().text = _ScoreText;
 
 	}
@@ -76,14 +80,22 @@ public class LevelSettings : MonoBehaviour {
 	public void ReduceBallLife()
 	{
 		_BallLives--;
-		if (_BallLives <= 0) {
-			//gameover;
+		if (_BallLives <= 0) 
+		{
+			this.gameObject.GetComponent<EventManager> ().EndGame ();
 		}
 	}
 	public void AddBallScore()
 	{
 		_BallScore += _BallToScoreRatio;
-		Debug.Log ("AAAAAAAAAHHHHHHHHHH");
+	}
+
+	void GameEndedOn()
+	{
+		_NewScore = _Score;
+		CheckScore ();
+
+		Application.LoadLevel ("MenuScene");
 	}
 
 	/*void CheckScore () 
@@ -221,7 +233,7 @@ public class LevelSettings : MonoBehaviour {
 		}
 		*/
 		SetNewHighScore ();
-		if (PlayerPrefs.GetInt ("HighScore") ==null) 
+		if (PlayerPrefs.GetInt ("HighScore") == null) 
 		{
 			SetNewHighScore ();
 		}
@@ -262,5 +274,6 @@ public class LevelSettings : MonoBehaviour {
 	void OnDestroy()
 	{
 		EventManager.GameUpdate -= GameUpdate;
+		EventManager.GameEndedOn -= GameEndedOn;
 	}
 }
